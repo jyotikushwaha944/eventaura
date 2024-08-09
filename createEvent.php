@@ -181,7 +181,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <input type="hidden" id="longitude" name="longitude">
             </div>
             <div class="form-group">
-                <label for="description">Description</label>
+                <label for="description">Description</label> 
                 <textarea id="description" name="description" class="form-control form-control-sm" rows="3" required></textarea>
             </div>
             <div class="form-row">
