@@ -24,34 +24,37 @@
             max-width: 300px; 
         }
 
-#autocomplete-dropdown {
-    width: 100%; /* Ensure the dropdown takes the full width of the parent container */
-}
+        #autocomplete-dropdown {
+            width: 100%; /* Ensure the dropdown takes the full width of the parent container */
+        }
+
         .dropdown-menu {
-    display: none;
-    position: absolute;
-    top: 100%;
-    right: 0;
-    margin-top: 0.5rem;
-    min-width: 160px;
-    max-width: 300px; /* Set a max-width */
-    z-index: 1000;
-    overflow-wrap: break-word; /* Ensure text wraps within the dropdown */
-    word-wrap: break-word; /* Compatibility for older browsers */
-    text-align: left; /* Align text to the left */
-}
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 0.5rem;
+            min-width: 160px;
+            max-width: 300px; /* Set a max-width */
+            z-index: 1000;
+            overflow-wrap: break-word; /* Ensure text wraps within the dropdown */
+            word-wrap: break-word; /* Compatibility for older browsers */
+            text-align: left; /* Align text to the left */
+        }
 
         .dropdown-menu.show {
             display: block;
         }
+
         .dropdown-item {
-    font-size: 0.875rem;
-    cursor: pointer;
-    white-space: nowrap;
-    overflow: hidden; /* Hide overflowing text */
-    text-overflow: ellipsis; /* Add ellipsis for long text */
-    padding: 0.25rem 1.5rem; /* Add padding for better spacing */
-}
+            font-size: 0.55rem; /* Smaller font size for the dropdown items */
+            cursor: pointer;
+            white-space: normal; /* Allow text to wrap */
+            overflow: hidden; /* Hide overflowing text */
+            text-overflow: ellipsis; /* Add ellipsis for long text */
+            padding: 0.25rem 0.5rem !important;  /* Add padding for better spacing */
+            line-height: 1.25; /* Adjust line height for better readability */
+        }
 
         .user-profile {
             position: relative;
@@ -63,14 +66,11 @@
     <div class="container">
         <div class="d-flex justify-content-between align-items-center py-3">
             <div class="logo">
-                <img src="img/logo.jpg" alt="logo" class="img-fluid" style="max-height: 50px;"> <!-- Adjust max-height as needed -->
+                <a href="index.php">
+                    <img src="img/logo.jpg" alt="logo" class="img-fluid" style="max-height: 50px;"> <!-- Adjust max-height as needed -->
+                </a>
             </div>
             <nav class="main-nav d-flex align-items-center">
-                <ul class="nav mb-0">
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" href="index.php">Home</a>
-                    </li>
-                </ul>
                 <div class="search-bar d-flex ml-4">
                     <!-- Search Events Form -->
                     <form class="form-inline mr-2" action="searchevents.php" method="POST">
@@ -151,11 +151,13 @@
         const profileDropdown = document.querySelector('.user-profile .dropdown-menu');
         const profileButton = document.querySelector('.user-profile .dropdown-toggle');
 
-        profileButton.addEventListener('click', function (event) {
+        if(profileButton){
+            profileButton.addEventListener('click', function (event) {
             event.preventDefault();
             profileDropdown.classList.toggle('show');
         });
-
+    }
+       
         // Hide dropdown when clicking outside of it
         document.addEventListener('click', function (event) {
             if (!profileDropdown.contains(event.target) && !profileButton.contains(event.target)) {
