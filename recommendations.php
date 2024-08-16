@@ -33,7 +33,7 @@ function fetchAllUpcomingEvents($conn){
     $query = "
     SELECT e.id, e.name, e.description, e.start_datetime, e.end_datetime, e.venue, e.category_id
     FROM event e
-    WHERE e.start_datetime > NOW()
+    WHERE e.start_datetime >= NOW() AND e.IsActive = 1
     ";
     $result = $conn->query($query);
     $allEvents = [];

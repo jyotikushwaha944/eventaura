@@ -52,43 +52,44 @@
             white-space: normal; /* Allow text to wrap */
             overflow: hidden; /* Hide overflowing text */
             text-overflow: ellipsis; /* Add ellipsis for long text */
-            padding: 0.25rem 0.5rem !important;  /* Add padding for better spacing */
+            padding: 0.5rem 0.5rem !important;  /* Add padding for better spacing */
             line-height: 1.25; /* Adjust line height for better readability */
         }
 
         .user-profile {
             position: relative;
         }
+        
     </style>
 </head>
 <body>
-<header class="bg-light">
+<header class="bg-primary"> <!-- Changed to bg-primary for blue background -->
     <div class="container">
         <div class="d-flex justify-content-between align-items-center py-3">
             <div class="logo">
-                <a href="index.php">
-                    <img src="img/logo.jpg" alt="logo" class="img-fluid" style="max-height: 50px;"> <!-- Adjust max-height as needed -->
+                <a href="/eventaura/index.php">
+                    <img src="/eventaura/img/logo.jpg" alt="logo" class="img-fluid" style="max-height: 50px;"> <!-- Adjust max-height as needed -->
                 </a>
             </div>
             <nav class="main-nav d-flex align-items-center">
                 <div class="search-bar d-flex ml-4">
                     <!-- Search Events Form -->
-                    <form class="form-inline mr-2" action="searchevents.php" method="POST">
+                    <form class="form-inline mr-2" action="/eventaura/searchevents.php" method="POST">
                         <div class="input-group">
                             <input class="form-control form-control-sm" type="text" name="search_query" placeholder="Search events">
                             <div class="input-group-append">
-                                <button class="btn btn-outline-primary btn-sm" type="submit">
+                                <button class="btn btn-outline-light btn-sm" type="submit"> <!-- Changed to btn-outline-light for white text -->
                                     <i class="fas fa-search"></i>
                                 </button>
                             </div>
                         </div>
                     </form>
                     <!-- Search Places Form -->
-                    <form class="form-inline" action="searchbylocation.php" method="POST">
+                    <form class="form-inline" action="/eventaura/searchbylocation.php" method="POST">
                         <div class="input-group position-relative">
                             <input id="location-input" class="form-control form-control-sm" type="text" name="search_location_query" placeholder="Choose location" autocomplete="off">
                             <div class="input-group-append">
-                                <button class="btn btn-outline-primary btn-sm" type="submit">
+                                <button class="btn btn-outline-light btn-sm" type="submit"> <!-- Changed to btn-outline-light for white text -->
                                     <i class="fas fa-search-location"></i>
                                 </button>
                             </div>
@@ -99,22 +100,22 @@
                     </form>
                     <ul class="nav mb-0">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" href="createEvent.php">Create Event</a>
+                            <a class="nav-link text-white" href="createEvent.php">Create Event</a> <!-- Changed to text-white for white text -->
                         </li>
                         <?php if (isset($_SESSION['usertype_id']) && $_SESSION['usertype_id'] === 3): ?>
                             <li class="nav-item dropdown">
-                                <a class="nav-link text-dark dropdown-toggle" href="#" id="manageMenuLink" role="button">
+                                <a class="nav-link text-white dropdown-toggle" href="#" id="manageMenuLink" role="button"> <!-- Changed to text-white for white text -->
                                     Manage
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="manageMenuLink">
-                                    <a class="dropdown-item" href="admin/manage_users.php"><i class="fas fa-user-cog"></i> Users</a>
-                                    <a class="dropdown-item" href="admin/manage_events.php"><i class="fas fa-calendar-alt"></i> Events</a>
-                                    <a class="dropdown-item" href="admin/manage_venues.php"><i class="fas fa-map-marker-alt"></i> Venues</a> <!-- New Link -->
+                                    <a class="dropdown-item" href="/eventaura/admin/manage_users.php"><i class="fas fa-user-cog"></i> Users</a>
+                                    <a class="dropdown-item" href="/eventaura/admin/manage_events.php"><i class="fas fa-calendar-alt"></i> Events</a>
+                                    <a class="dropdown-item" href="/eventaura/admin/manage_venues.php"><i class="fas fa-map-marker-alt"></i> Venues</a> <!-- New Link -->
                                 </div>
                             </li>
                         <?php else: ?>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" href="aboutus.php">About Us</a>
+                                <a class="nav-link text-white" href="aboutus.php">About Us</a> <!-- Changed to text-white for white text -->
                             </li>
                         <?php endif; ?>
                     </ul>
@@ -123,7 +124,7 @@
             <div class="user-profile ml-4 d-flex align-items-center">
                 <?php if (isset($_SESSION['loggedIn']) && $_SESSION['loggedIn']): ?>
                     <div class="dropdown">
-                        <a class="btn btn-outline-primary btn-sm dropdown-toggle" href="#" role="button" id="dropdownMenuLink" aria-haspopup="true" aria-expanded="false">
+                        <a class="btn btn-outline-light btn-sm dropdown-toggle" href="#" role="button" id="dropdownMenuLink" aria-haspopup="true" aria-expanded="false"> <!-- Changed to btn-outline-light for white text -->
                             Welcome, <?php echo htmlspecialchars($_SESSION['username']); ?>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
@@ -132,17 +133,19 @@
                         </div>
                     </div>
                 <?php else: ?>
-                    <a class="btn btn-outline-primary btn-sm mr-2" href="login.php">Log In</a>
-                    <a class="btn btn-outline-primary btn-sm" href="signup.php">Sign Up</a>
+                    <a class="btn btn-outline-light btn-sm mr-2" href="login.php">Log In</a> <!-- Changed to btn-outline-light for white text -->
+                    <a class="btn btn-outline-light btn-sm" href="signup.php">Sign Up</a> <!-- Changed to btn-outline-light for white text -->
                 <?php endif; ?>
             </div>
         </div>
     </div>
 </header>
 
+
 <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
 <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script>
@@ -193,7 +196,7 @@
 
             locationInput.addEventListener('input', function () {
                 const query = this.value;
-                if (query.length >= 5) {
+                if (query.length >= 4) {
                     geocoder.geocode(query, function (results) {
                         autocompleteDropdown.innerHTML = '';
                         autocompleteDropdown.style.display = 'none';

@@ -204,7 +204,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             
             venueInput.addEventListener('input', function() {
                 const query = venueInput.value;
-                if (query.length >= 5) {
+                if (query.length >= 4) {
                     fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}`)
                         .then(response => response.json())
                         .then(data => {

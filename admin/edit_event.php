@@ -1,13 +1,14 @@
 <?php
 session_start();
 require '../includes/database.php';
-require '../includes/header.php';
 
 // Ensure the user is an admin
-if (!isset($_SESSION['user_id']) || $_SESSION['usertype_id'] != 1) {
+if (!isset($_SESSION['userid']) || $_SESSION['usertype_id'] != 3) {
     header('Location: ../login.php');
     exit();
 }
+
+$conn = getDB(); // Assuming getDB() returns a MySQLi connection
 
 // Handle form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -22,8 +23,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $query = "UPDATE event SET name = ?, description = ?, venue = ?, start_datetime = ?, end_datetime = ?, price = ?, category_id = ? WHERE id = ?";
     $stmt = $conn->prepare($query);
-    if ($stmt->execute([$name, $description, $venue, $start_datetime, $end_datetime, $price, $category_id, $event_id])) {
-        header('Location: manage_events.php');
+    $stmt->bind_param('sssssdii', $name, $description, $venue, $start_datetime, $end_datetime, $price, $category_id, $event_id);
+
+    if ($stmt->execute()) {
+        header("Location: manage_events.php");
         exit();
     } else {
         $error = 'Failed to update event.';
@@ -34,13 +37,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $event_id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 $query = "SELECT * FROM event WHERE id = ?";
 $stmt = $conn->prepare($query);
-$stmt->execute([$event_id]);
-$event = $stmt->fetch(PDO::FETCH_ASSOC);
+$stmt->bind_param('i', $event_id);
+$stmt->execute();
+$result = $stmt->get_result();
+$event = $result->fetch_assoc();
 
 // Fetch categories
 $query = "SELECT * FROM category";
-$stmt = $conn->query($query);
-$categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$result = $conn->query($query);
+$categories = [];
+while ($row = $result->fetch_assoc()) {
+    $categories[] = $row;
+}
+
+$conn->close();
+require '../header.php';
 ?>
 
 <!DOCTYPE html>

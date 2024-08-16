@@ -17,9 +17,9 @@ try {
 
     // Fetch events based on the selected category if it exists
     $category_id = isset($_POST['event_type']) ? (int)$_POST['event_type'] : 0;
-    $query = "SELECT * FROM event";
+    $query = "SELECT * FROM event WHERE start_datetime >= NOW() AND IsActive = 1";
     if ($category_id > 0) {
-        $query .= " WHERE category_id = " . $category_id;
+        $query .= " AND category_id = " . $category_id;
     }
     $query .= " ORDER BY created_datetime DESC";
 
@@ -106,15 +106,42 @@ if (isset($_SESSION['userid'])) {
             padding-bottom: 0.5rem;
             margin-bottom: 1rem;
         }
+
+        .video-wrapper {
+            width: 100%;
+            height: 400px;
+            overflow: hidden;
+            margin-bottom: 2rem; /* Adjusted margin to reduce gap */
+            border-radius: 0.5rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Light shadow */
+        }
+
+        .video-wrapper video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
     </style>
 </head>
 <body>
 
-<div class="container mt-5">
+<div class="container mt-2"> <!-- Adjusted margin-top to reduce gap -->
+    <!-- Video Section -->
+    <div class="video-wrapper">
+        <video autoplay muted loop>
+            <source src="img/175579-853849692_small.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+
     <!-- Recommendations Section -->
     <?php if (!empty($recommendedEvents)): ?>
         <div class="row">
             <div class="col-12 mb-4">
+                <?php if (isset($_SESSION['message'])): ?>
+                    <div class="alert alert-info text-center"><?php echo htmlspecialchars($_SESSION['message']); ?></div>
+                    <?php unset($_SESSION['message']); ?>
+                <?php endif; ?>
                 <h4 class="section-title">Recommended events for you</h4>
                 <div class="row">
                     <?php foreach ($recommendedEvents as $event): ?>
@@ -165,10 +192,6 @@ if (isset($_SESSION['userid'])) {
     </div>
 
     <h4 class="section-title">Our top picks for you</h4>
-    <?php if (isset($_SESSION['message'])): ?>
-        <div class="alert alert-info text-center"><?php echo htmlspecialchars($_SESSION['message']); ?></div>
-        <?php unset($_SESSION['message']); ?>
-    <?php endif; ?>
 
     <?php if (empty($events)): ?>
         <div class="alert alert-warning text-center">No events found.</div>
@@ -207,5 +230,8 @@ if (isset($_SESSION['userid'])) {
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<?php include 'footer.php'; ?>
+
 </body>
 </html>
