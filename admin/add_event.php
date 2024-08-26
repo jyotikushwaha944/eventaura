@@ -30,7 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-    <div class="container mt-4">
+    <div class="container-fluid mt-4">
         <h1 class="mb-4">Add Event</h1>
         <form method="post">
             <div class="form-group">

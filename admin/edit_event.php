@@ -70,7 +70,7 @@ require '../header.php';
     </style>
 </head>
 <body>
-    <div class="container mt-4 form-container">
+    <div class="container-fluid mt-4 form-container">
         <h1 class="mb-4">Edit Event</h1>
         <?php if (isset($error)): ?>
         <div class="alert alert-danger"><?php echo htmlspecialchars($error); ?></div>

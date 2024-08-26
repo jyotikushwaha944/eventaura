@@ -33,7 +33,7 @@ try {
     </style>
 </head>
 <body>
-<div class="container mt-5">
+<div class="container-fluid mt-5">
 
     <!-- Toast Notifications -->
     <div class="toast-container">

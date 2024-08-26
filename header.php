@@ -64,7 +64,7 @@
 </head>
 <body>
 <header class="bg-primary"> <!-- Changed to bg-primary for blue background -->
-    <div class="container">
+    <div class="container-fluid">
         <div class="d-flex justify-content-between align-items-center py-3">
             <div class="logo">
                 <a href="/eventaura/index.php">

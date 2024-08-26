@@ -93,7 +93,7 @@ $events = isset($_SESSION['search_events']['events']) ? $_SESSION['search_events
     </script>
 </head>
 <body>
-    <div class="container mt-5">
+    <div class="container-fluid mt-5">
         <h2 class="mb-4 text-center">Search Results</h2>
         <?php if (empty($events)): ?>
             <div class="alert alert-warning text-center">No events found.</div>

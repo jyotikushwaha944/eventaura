@@ -76,7 +76,7 @@ $conn->close();
     </style>
 </head>
 <body>
-    <div class="container mt-4">
+    <div class="container-fluid mt-4">
          <!-- Toast Notifications -->
     <div class="toast-container">
         <div id="toastMessage" class="toast" role="alert" aria-live="assertive" aria-atomic="true">

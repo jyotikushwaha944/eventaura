@@ -47,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-    <div class="container d-flex justify-content-center align-items-center min-vh-100">
+    <div class="container-fluid d-flex justify-content-center align-items-center min-vh-100">
         <div class="card" style="width: 100%; max-width: 500px;">
             <div class="card-header text-center bg-primary text-white">
                 <h4 class="mb-0">Register</h4>

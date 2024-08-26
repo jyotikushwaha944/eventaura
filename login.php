@@ -64,7 +64,7 @@ $conn->close();
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-    <div class="container d-flex justify-content-center align-items-center" style="height: 100vh;">
+    <div class="container-fluid d-flex justify-content-center align-items-center" style="height: 100vh;">
         <div class="card p-4" style="max-width: 400px; width: 100%;">
             <h2 class="text-center mb-4">Log In</h2>
             <form action="" method="POST">

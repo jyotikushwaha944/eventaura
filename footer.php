@@ -3,7 +3,7 @@
 ?>
 
 <footer class="bg-dark text-white py-4" style="background-image: url('img/fire2.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat;">
-    <div class="container">
+    <div class="container-fluid">
         <div class="row">
             <!-- Company Information -->
             <div class="col-md-4">

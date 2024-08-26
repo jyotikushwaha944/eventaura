@@ -55,7 +55,7 @@ $venues = $result->fetch_all(MYSQLI_ASSOC);
     <script src="../includes/bootstrap.bundle.min.js"></script>
 </head>
 <body>
-    <div class="container mt-4">
+    <div class="container-fluid mt-4">
         <h1>Manage Venues</h1>
         <form method="post" action="manage_venues.php">
             <input type="hidden" name="id" id="venue_id">

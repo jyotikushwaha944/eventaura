@@ -41,7 +41,7 @@ try {
 }
 ?>
 
-<div class="container mt-5">
+<div class="container-fluid mt-5">
     <div class="card">
         <?php if (!empty($event['image_large'])): ?>
             <img src="<?php echo htmlspecialchars($event['image_large']); ?>" class="card-img-top" alt="Event Image" style="width: 100%; height: auto;">

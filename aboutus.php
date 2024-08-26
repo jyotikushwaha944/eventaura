@@ -59,7 +59,7 @@
     <?php include 'header.php'; ?>
 
     <div class="about-us-image"></div> <!-- Image section -->
-    <div class="container mt-0">
+    <div class="container-fluid mt-0">
         <div class="row about-us-section">
             <div class="col-md-6 about-us-mission">
                 <h2>Our Mission</h2>

@@ -125,7 +125,7 @@ if (isset($_SESSION['userid'])) {
 </head>
 <body>
 
-<div class="container mt-2"> <!-- Adjusted margin-top to reduce gap -->
+<div class="container-fluid mt-2"> <!-- Adjusted margin-top to reduce gap -->
     <!-- Video Section -->
     <div class="video-wrapper">
         <video autoplay muted loop>
