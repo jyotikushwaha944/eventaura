@@ -1,4 +1,3 @@
-
 <?php 
 function getUser($conn, $email) {
     $sql = "SELECT * FROM user WHERE email=?";

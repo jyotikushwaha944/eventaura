@@ -24,7 +24,7 @@ try {
     ");
 
     $search_query = '%' . $search_query . '%';
-    $stmt->bind_param('ssss', $searc_query, $search_query, $search_query, $search_query); // Fixed number of parameters
+    $stmt->bind_param('ssss', $search_query, $search_query, $search_query, $search_query); // Fixed number of parameters
     $stmt->execute();
     $result = $stmt->get_result();
     

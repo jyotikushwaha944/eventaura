@@ -59,7 +59,7 @@
         .user-profile {
             position: relative;
         }
-        
+
     </style>
 </head>
 <body>
@@ -100,7 +100,7 @@
                     </form>
                     <ul class="nav mb-0">
                         <li class="nav-item">
-                            <a class="nav-link text-white" href="createEvent.php">Create Event</a> <!-- Changed to text-white for white text -->
+                            <a class="nav-link text-white" href="/eventaura/createEvent.php">Create Event</a> <!-- Changed to text-white for white text -->
                         </li>
                         <?php if (isset($_SESSION['usertype_id']) && $_SESSION['usertype_id'] === 3): ?>
                             <li class="nav-item dropdown">
@@ -115,7 +115,7 @@
                             </li>
                         <?php else: ?>
                             <li class="nav-item">
-                                <a class="nav-link text-white" href="aboutus.php">About Us</a> <!-- Changed to text-white for white text -->
+                                <a class="nav-link text-white" href="/eventaura/aboutus.php">About Us</a> <!-- Changed to text-white for white text -->
                             </li>
                         <?php endif; ?>
                     </ul>
@@ -128,13 +128,13 @@
                             Welcome, <?php echo htmlspecialchars($_SESSION['username']); ?>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                            <a class="dropdown-item" href="mytickets.php"><i class="fas fa-ticket-alt"></i> My Tickets</a>
-                            <a class="dropdown-item" href="logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                            <a class="dropdown-item" href="/eventaura/mytickets.php"><i class="fas fa-ticket-alt"></i> My Tickets</a>
+                            <a class="dropdown-item" href="/eventaura/logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a>
                         </div>
                     </div>
                 <?php else: ?>
-                    <a class="btn btn-outline-light btn-sm mr-2" href="login.php">Log In</a> <!-- Changed to btn-outline-light for white text -->
-                    <a class="btn btn-outline-light btn-sm" href="signup.php">Sign Up</a> <!-- Changed to btn-outline-light for white text -->
+                    <a class="btn btn-outline-light btn-sm mr-2" href="/eventaura/login.php">Log In</a> <!-- Changed to btn-outline-light for white text -->
+                    <a class="btn btn-outline-light btn-sm" href="/eventaura/signup.php">Sign Up</a> <!-- Changed to btn-outline-light for white text -->
                 <?php endif; ?>
             </div>
         </div>

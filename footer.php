@@ -17,7 +17,7 @@
                     <li><a href="index.php" class="text-white">Home</a></li>
                     <li><a href="aboutus.php" class="text-white">About Us</a></li>
                     <li><a href="mytickets.php" class="text-white">My Tickets</a></li>
-                    <li><a href="eventFinder.php" class="text-white">Events</a></li>
+                    <li><a href="createEvent.php" class="text-white">post your event online</a></li>
                 </ul>
             </div>
             <!-- Contact Information -->

@@ -56,7 +56,7 @@ if (!empty($latitude) && !empty($longitude)) {
     }
 } else {
     // If latitude and longitude are not provided, get all events
-    $sql = "SELECT * FROM event ORDER BY start_datetime DESC";
+    $sql = "SELECT * FROM event WHERE IsActive = 1 ORDER BY start_datetime DESC";
 
     try {
         // Prepare and execute the query

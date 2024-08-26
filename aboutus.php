@@ -1,97 +1,81 @@
-<?php
-// Start session and include database connection
-session_start();
-require 'includes/database.php'; // Ensure the path is correct
-
-// Check if $conn is defined
-if (!isset($conn)) {
-    die("Database connection failed.");
-}
-
-// Fetch some event categories and user types to display on the about page
-$category_query = "SELECT name FROM category";
-$category_result = $conn->query($category_query);
-
-$usertype_query = "SELECT type FROM usertype";
-$usertype_result = $conn->query($usertype_query);
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About Us - Eventaura</title>
-    <link rel="stylesheet" href="path_to_bootstrap.css">
+    <title>About Us</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles.css"> <!-- Custom stylesheet -->
     <style>
-        .about-section {
-            padding: 50px;
-            background-color: #f9f9f9;
-        }
-        .about-section h2 {
-            font-size: 36px;
-            margin-bottom: 20px;
-        }
-        .about-section p {
-            font-size: 18px;
-            line-height: 1.6;
-        }
-        .category-list, .usertype-list {
-            list-style-type: none;
+        body {
+            margin: 0;
             padding: 0;
         }
-        .category-list li, .usertype-list li {
-            font-size: 16px;
-            margin-bottom: 10px;
+        .about-us-image {
+            background-image: url('img/Heading.png'); /* Correct path to your image */
+            background-size: cover;
+            background-position: center;
+            height: 800px; /* Increased height */
+            width: 100vw; /* Full viewport width */
+            max-width: 100%; /* Ensure the image does not overflow */
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            margin: 0; /* Remove margin to decrease gap */
+        }
+        .container {
+            padding-left: 0; /* Remove container padding on the left */
+            padding-right: 0; /* Remove container padding on the right */
+        }
+        .about-us-section {
+            margin-top: 0; /* Remove margin to decrease gap between image and section */
+        }
+        .about-us-mission, .about-us-vision {
+            padding: 20px;
+            background-color: #f8f9fa; /* Light gray background */
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        .about-us-mission h2, .about-us-vision h2 {
+            color: #007bff; /* Bootstrap primary color */
+            font-size: 2rem; /* Larger font size */
+            font-weight: 700; /* Bold font weight */
+            margin-bottom: 15px;
+            text-transform: uppercase; /* Uppercase text */
+            letter-spacing: 1px; /* Spacing between letters */
+            border-bottom: 2px solid #007bff; /* Bottom border with color */
+            padding-bottom: 10px; /* Padding below the text */
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1); /* Subtle text shadow */
+            font-family: 'Arial', sans-serif; /* Custom font family */
+        }
+        .about-us-mission p, .about-us-vision p {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #343a40;
         }
     </style>
 </head>
 <body>
+    <?php include 'header.php'; ?>
 
-    <!-- Navbar -->
-    <?php include 'navbar.php'; ?>
-
-    <!-- About Us Section -->
-    <div class="about-section container">
-        <h2>About Eventaura</h2>
-        <p>Eventaura is your go-to platform for discovering and managing events in various categories. Our mission is to make event planning and participation seamless, providing a wide range of event options from cultural festivals to corporate seminars.</p>
-
-        <h3>Our Event Categories</h3>
-        <ul class="category-list">
-            <?php
-            if ($category_result->num_rows > 0) {
-                while ($row = $category_result->fetch_assoc()) {
-                    echo "<li>" . htmlspecialchars($row['name']) . "</li>";
-                }
-            } else {
-                echo "<li>No categories available at the moment.</li>";
-            }
-            ?>
-        </ul>
-
-        <h3>User Roles on Eventaura</h3>
-        <ul class="usertype-list">
-            <?php
-            if ($usertype_result->num_rows > 0) {
-                while ($row = $usertype_result->fetch_assoc()) {
-                    echo "<li>" . htmlspecialchars($row['type']) . "</li>";
-                }
-            } else {
-                echo "<li>No user roles available at the moment.</li>";
-            }
-            ?>
-        </ul>
-
-        <h3>Our Mission</h3>
-        <p>At Eventaura, we strive to bring people together by making events accessible to everyone. Whether you are an individual looking to attend an event, an organization hosting a gathering, or an administrator ensuring everything runs smoothly, Eventaura is here to support you.</p>
+    <div class="about-us-image"></div> <!-- Image section -->
+    <div class="container mt-0">
+        <div class="row about-us-section">
+            <div class="col-md-6 about-us-mission">
+                <h2>Our Mission</h2>
+                <p>At EventAura, our mission is to transform your vision into unforgettable experiences. We are dedicated to organizing events with precision and creativity, ensuring every detail is perfect and every moment is memorable. Whether it’s a corporate conference, a wedding, or a community gathering, we bring expertise and enthusiasm to every project.</p>
+            </div>
+            <div class="col-md-6 about-us-vision">
+                <h2>Our Vision</h2>
+                <p>Our vision is to be the leading event management company known for our innovative solutions and exceptional service. We strive to exceed expectations by combining the latest trends in event planning with personalized attention, creating events that not only meet but surpass our clients' dreams and aspirations.</p>
+            </div>
+        </div>
     </div>
 
-    <!-- Footer -->
     <?php include 'footer.php'; ?>
 
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
-
-<?php
-$conn->close();
-?>

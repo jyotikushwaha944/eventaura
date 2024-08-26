@@ -66,12 +66,27 @@ $conn->close();
         .fa-edit:hover, .fa-trash:hover {
             color: #0056b3; /* Darker blue on hover */
         }
+        .toast-container {
+    position: fixed;
+    top: 1rem; /* Adjust as needed */
+    right: 1rem; /* Adjust as needed */
+    z-index: 1050;
+    color:white;
+}
     </style>
 </head>
 <body>
     <div class="container mt-4">
+         <!-- Toast Notifications -->
+    <div class="toast-container">
+        <div id="toastMessage" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-body">
+                <!-- Message will be injected here -->
+            </div>
+        </div>
+    </div>
         <h1>Manage Events</h1>
-        <a href="edit_event.php" class="btn btn-primary mb-3">Add New Event</a>
+        <a href="/eventaura/createEvent.php" class="btn btn-primary mb-3">Add New Event</a>
         <table class="table table-bordered table-striped">
             <thead>
                 <tr>
@@ -144,15 +159,26 @@ $conn->close();
                 dataType: 'json',
                 success: function(response) {
                     if (response.success) {
-                        location.reload();
+                        showToast('Event deleted successfully', 'success');
+                        setTimeout(() => location.reload(), 2000);
                     } else {
-                        alert('Error: ' + response.error);
+                        showToast('Error deleting user', 'danger');
                     }
                 }
             });
             $('#confirmDeleteModal').modal('hide');
         });
     });
+
+    function showToast(message, type) {
+            const toast = document.getElementById('toastMessage');
+            toast.querySelector('.toast-body').textContent = message;
+            toast.classList.add('bg-' + type);
+            const bsToast = new bootstrap.Toast(toast, {
+        delay: 5000 // Increase delay to 10 seconds (10000 ms)
+    });
+            bsToast.show();
+        }
     </script>
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </body>

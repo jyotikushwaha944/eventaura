@@ -8,7 +8,7 @@ $conn = getDB();
 
 try {
     // Fetch users
-    $user_result = $conn->query("SELECT * FROM user ORDER BY created_datetime DESC");
+    $user_result = $conn->query("SELECT * FROM user WHERE IsActive=1 ORDER BY created_datetime DESC");
     if (!$user_result) {
         throw new Exception("Error fetching users: " . $conn->error);
     }
@@ -21,47 +21,69 @@ try {
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage Users</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .toast-container {
+    position: fixed;
+    top: 1rem; /* Adjust as needed */
+    right: 1rem; /* Adjust as needed */
+    z-index: 1050;
+    color:white;
+}
+    </style>
 </head>
 <body>
 <div class="container mt-5">
+
+    <!-- Toast Notifications -->
+    <div class="toast-container">
+        <div id="toastMessage" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-body">
+                <!-- Message will be injected here -->
+            </div>
+        </div>
+    </div>
+
     <h2>Manage Users</h2>
-    <table class="table table-bordered table-striped">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Username</th>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Email</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($users as $row): ?>
+
+    <?php if (count($users) > 0): ?>
+        <table class="table table-bordered table-striped">
+            <thead>
                 <tr>
-                    <td><?php echo htmlspecialchars($row['id']); ?></td>
-                    <td><?php echo htmlspecialchars($row['username']); ?></td>
-                    <td><?php echo htmlspecialchars($row['firstname']); ?></td>
-                    <td><?php echo htmlspecialchars($row['lastname']); ?></td>
-                    <td><?php echo htmlspecialchars($row['email']); ?></td>
-                    <td>
-                        <button type="button" class="btn btn-sm btn-outline-primary edit-btn" data-id="<?php echo $row['id']; ?>">
-                            <i class="fas fa-edit"></i> Edit
-                        </button>
-                        <a href="deleteUser.php?id=<?php echo $row['id']; ?>" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure you want to delete this user?');">
-                            <i class="fas fa-trash"></i> Delete
-                        </a>
-                    </td>
+                    <th>ID</th>
+                    <th>Username</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email</th>
+                    <th>Actions</th>
                 </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                <?php foreach ($users as $row): ?>
+                    <tr>
+                        <td><?php echo htmlspecialchars($row['id']); ?></td>
+                        <td><?php echo htmlspecialchars($row['username']); ?></td>
+                        <td><?php echo htmlspecialchars($row['firstname']); ?></td>
+                        <td><?php echo htmlspecialchars($row['lastname']); ?></td>
+                        <td><?php echo htmlspecialchars($row['email']); ?></td>
+                        <td>
+                            <button type="button" class="btn btn-sm btn-outline-primary edit-btn" data-id="<?php echo $row['id']; ?>">
+                                <i class="fas fa-edit"></i> Edit
+                            </button>
+                            <a href="#" class="delete-btn btn btn-sm btn-outline-danger" data-id="<?php echo $row['id']; ?>">
+                                <i class="fas fa-trash"></i> Delete
+                            </a>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    <?php else: ?>
+        <p class="text-center">No users available.</p>
+    <?php endif; ?>
+
 </div>
+
 
 <!-- Edit User Modal -->
 <div class="modal fade" id="editUserModal" tabindex="-1" aria-labelledby="editUserModalLabel" aria-hidden="true">
@@ -97,9 +119,27 @@ try {
     </div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<!-- Confirm Delete Modal -->
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmDeleteModalLabel">Confirm Deletion</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete this user? This action cannot be undone.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" id="confirmDeleteButton">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -122,7 +162,7 @@ try {
                         // Show the modal
                         $('#editUserModal').modal('show');
                     })
-                    .catch(error => console.error('Error:', error));
+                    .catch(error => showToast('Error fetching user data', 'danger'));
             });
         });
 
@@ -137,13 +177,53 @@ try {
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    location.reload(); // Reload the page to reflect changes
+                    showToast('User updated successfully', 'success');
+                    setTimeout(() => location.reload(), 2000);
                 } else {
-                    alert('Error updating user');
+                    showToast('Error updating user', 'danger');
                 }
             })
-            .catch(error => console.error('Error:', error));
+            .catch(error => showToast('Error:', 'danger'));
         });
+
+        var userIdToDelete = null;
+
+        $('.delete-btn').on('click', function(event) {
+            event.preventDefault();
+            userIdToDelete = $(this).data('id');
+            $('#confirmDeleteModal').modal('show');
+        });
+
+        $('#confirmDeleteButton').on('click', function() {
+            $.ajax({
+                url: 'deleteUser.php',
+                type: 'GET',
+                data: { id: userIdToDelete },
+                dataType: 'json',
+                success: function(response) {
+                    if (response.success) {
+                        showToast('User deleted successfully', 'success');
+                        setTimeout(() => location.reload(), 2000);
+                    } else {
+                        showToast('Error deleting user', 'danger');
+                    }
+                },
+                error: function() {
+                    showToast('Error deleting user', 'danger');
+                }
+            });
+            $('#confirmDeleteModal').modal('hide');
+        });
+
+        function showToast(message, type) {
+            const toast = document.getElementById('toastMessage');
+            toast.querySelector('.toast-body').textContent = message;
+            toast.classList.add('bg-' + type);
+            const bsToast = new bootstrap.Toast(toast, {
+        delay: 5000 // Increase delay to 10 seconds (10000 ms)
+    });
+            bsToast.show();
+        }
     });
 </script>
 

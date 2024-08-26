@@ -1,26 +1,21 @@
 <?php
-session_start();
-require '../includes/database.php';
+include '../includes/database.php'; // Include the correct path for the database connection
 
-header('Content-Type: application/json');
+$id = (int)$_GET['id'];
+$conn = getDB(); // Get the database connection
 
-$conn = getDB();
-
-// Check if ID is provided
-if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
-    echo json_encode(['success' => false, 'error' => 'Invalid user ID']);
-    exit();
-}
-
-$id = $_GET['id'];
-
-// Prepare and execute the delete query
-$query = $conn->prepare("DELETE FROM user WHERE id = ?");
-$query->bind_param('i', $id);
-
-if ($query->execute()) {
-    echo json_encode(['success' => true]);
+// Prepare and execute the update query
+$sql = "UPDATE user SET IsActive = 0 WHERE id = ?";
+if ($stmt = $conn->prepare($sql)) {
+    $stmt->bind_param("i", $id);
+    if ($stmt->execute()) {
+        echo json_encode(['success' => true]);
+    } else {
+        echo json_encode(['success' => false, 'error' => 'Failed to update user status.']);
+    }
+    $stmt->close();
 } else {
-    echo json_encode(['success' => false, 'error' => $conn->error]);
+    echo json_encode(['success' => false, 'error' => 'Failed to prepare statement.']);
 }
+$conn->close();
 ?>
