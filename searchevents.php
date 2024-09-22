@@ -31,10 +31,7 @@ try {
     if (!$result) {
         throw new Exception("Error fetching events: " . $conn->error);
     }
-    
     $events = $result->fetch_all(MYSQLI_ASSOC);
-    
-    // Pass search parameters to the next page
     $_SESSION['search_events'] = [
         'events' => $events
     ];

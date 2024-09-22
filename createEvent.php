@@ -1,22 +1,14 @@
 <?php
 session_start();
 require 'includes/database.php'; 
-// require 'header.php';
-
-// Enable error reporting
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
-
-// Check if the user is logged in
 if (!isset($_SESSION['loggedIn'])) {
     header("Location: login.php");
     exit();
 }
-
 $conn = getDB();
-
-// Fetch categories from the database
 $categories = [];
 try {
     $stmt = $conn->prepare("SELECT id, name FROM category");
@@ -43,6 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $start_datetime = $_POST['start_datetime'];
     $end_datetime = $_POST['end_datetime'];
     $venue = $_POST['venue'];
+    $venue2 = $_POST['venue2'];
     $latitude = $_POST['latitude'];
     $longitude = $_POST['longitude'];
     $price = $_POST['price'];
@@ -73,12 +66,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     try {
-        $stmt = $conn->prepare("INSERT INTO event (name, description, venue, participant_count, start_datetime, end_datetime, created_datetime, price, created_by, category_id, latitude, longitude, image_large, image_small) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt = $conn->prepare("INSERT INTO event (name, description, venue, venue2, participant_count, start_datetime, end_datetime, created_datetime, price, created_by, category_id, latitude, longitude, image_large, image_small) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
         if (!$stmt) {
             throw new Exception($conn->error);
         }
 
-        $stmt->bind_param("sssisssdiiddss", $title, $description, $venue, $participant_count, $start_datetime, $end_datetime, $created_datetime, $price, $created_by, $category_id, $latitude, $longitude, $largeImagePath, $smallImagePath);
+        $stmt->bind_param("ssssisssdiiddss", $title, $description, $venue, $venue2, $participant_count, $start_datetime, $end_datetime, $created_datetime, $price, $created_by, $category_id, $latitude, $longitude, $largeImagePath, $smallImagePath);
         
         $stmt->execute();
 
@@ -171,11 +164,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 </div>
             </div>
             <div class="form-group position-relative">
-                <label for="venue">Venue</label>
+                <label for="venue">Location</label>
                 <input type="text" id="venue" name="venue" class="form-control form-control-sm" autocomplete="off" required>
                 <div id="autocomplete-dropdown" class="autocomplete-dropdown"></div>
                 <input type="hidden" id="latitude" name="latitude">
                 <input type="hidden" id="longitude" name="longitude">
+            </div>
+            <div class="form-group position-relative">
+                <label for="venue">Venue</label>
+                <select name="venue2" id="venues">
+                    <option value="Nepal Pragya Pratisthan">Nepal Pragya Pratisthan</option>
+                    <option value="Bishwo Bhasha Campus Hall">Bishwo Bhasha Campus Hall</option>
+                    <option value="APF Stadium">APF Stadium</option>
+                    <option value="Hotel Yak & Yeti Conference Hall">Hotel Yak & Yeti Conference Hall</option>
+                    <option value="Gyaneshwor Hall">Gyaneshwor Hall</option>
+                    <option value="Birgunj Stadium">Birgunj Stadium</option>
+                    <option value="Dharan Stadium">Dharan Stadium</option>
+                </select>
             </div>
             <div class="form-group">
                 <label for="description">Description</label>
@@ -226,7 +231,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         })
                         .catch(error => console.error('Error:', error));
                 } else {
-                    dropdown.innerHTML = ''; // Clear dropdown if less than 5 characters
+                    dropdown.innerHTML = ''; 
                 }
             });
         });

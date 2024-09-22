@@ -1,21 +1,21 @@
 <?php
 session_start();
 require 'includes/database.php';
-require 'header.php'; // Include header
+require 'header.php'; 
 require 'recommendations.php';
 
-// Get the MySQLi connection
+
 $conn = getDB();
 
 try {
-    // Fetch categories
+    
     $category_result = $conn->query("SELECT id, name FROM category");
     if (!$category_result) {
         throw new Exception("Error fetching categories: " . $conn->error);
     }
     $categories = $category_result->fetch_all(MYSQLI_ASSOC);
 
-    // Fetch events based on the selected category if it exists
+    
     $category_id = isset($_POST['event_type']) ? (int)$_POST['event_type'] : 0;
     $query = "SELECT * FROM event WHERE start_datetime >= NOW() AND IsActive = 1";
     if ($category_id > 0) {
@@ -29,11 +29,11 @@ try {
     }
     $events = $result->fetch_all(MYSQLI_ASSOC);
 } catch (Exception $e) {
-    // Handle any errors
+    
     die($e->getMessage());
 }
 
-// Check if user is logged in
+
 if (isset($_SESSION['userid'])) {
     $user_id = $_SESSION['userid'];
     $recommendedEvents = findRecommendedEvents($conn, $user_id);
@@ -51,12 +51,12 @@ if (isset($_SESSION['userid'])) {
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
         .card {
-            height: 100%; /* Ensure cards stretch to the full height of their containers */
+            height: 100%; 
             display: flex;
             flex-direction: column;
-            border: 1px solid #ddd; /* Subtle border for a more professional look */
-            border-radius: 0.5rem; /* Rounded corners */
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Light shadow */
+            border: 1px solid #ddd; 
+            border-radius: 0.5rem; 
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
         }
 
         .card-img-wrapper {
@@ -78,11 +78,11 @@ if (isset($_SESSION['userid'])) {
         }
 
         .card-body .btn {
-            margin-top: auto; /* Push the button to the bottom */
+            margin-top: auto; 
         }
 
         .alert-info {
-            font-size: 0.875rem; /* Smaller font size for alerts */
+            font-size: 0.875rem; 
         }
 
         .form-control-sm {
@@ -111,9 +111,9 @@ if (isset($_SESSION['userid'])) {
             width: 100%;
             height: 400px;
             overflow: hidden;
-            margin-bottom: 2rem; /* Adjusted margin to reduce gap */
+            margin-bottom: 2rem; 
             border-radius: 0.5rem;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Light shadow */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
         }
 
         .video-wrapper video {
@@ -125,8 +125,8 @@ if (isset($_SESSION['userid'])) {
 </head>
 <body>
 
-<div class="container-fluid mt-2"> <!-- Adjusted margin-top to reduce gap -->
-    <!-- Video Section -->
+<div class="container-fluid mt-2"> 
+    
     <div class="video-wrapper">
         <video autoplay muted loop>
             <source src="img/175579-853849692_small.mp4" type="video/mp4">
@@ -202,7 +202,10 @@ if (isset($_SESSION['userid'])) {
                     <div class="card border-primary">
                         <a href="event_detail.php?event_id=<?php echo htmlspecialchars($event['id']); ?>" class="text-decoration-none">
                             <div class="card-img-wrapper">
+                           
                                 <?php if (!empty($event['image_small'])): ?>
+
+                                   
                                     <img src="<?php echo htmlspecialchars($event['image_small']); ?>" class="card-img" alt="Event Image">
                                 <?php else: ?>
                                     <img src="https://via.placeholder.com/350x200?text=Event+Image" class="card-img" alt="Placeholder Image">
@@ -213,6 +216,7 @@ if (isset($_SESSION['userid'])) {
                                 <p class="card-text"><small class="text-muted"><strong>Start DateTime:</strong> <?php echo htmlspecialchars($event['start_datetime']); ?></small></p>
                                 <p class="card-text"><small class="text-muted"><strong>End DateTime:</strong> <?php echo htmlspecialchars($event['end_datetime']); ?></small></p>
                                 <p class="card-text"><small class="text-muted"><strong>Location:</strong> <?php echo htmlspecialchars($event['venue']); ?></small></p>
+                                <p class="card-text"><small class="text-muted"><strong>Venue:</strong> <?php echo htmlspecialchars($event['venue2']); ?></small></p>
                                 <p class="card-text"><small class="text-muted"><strong>Price:</strong> <?php echo htmlspecialchars($event['price']); ?></small></p>
                                 <p class="card-text"><small class="text-muted"><strong>Description:</strong> <?php echo htmlspecialchars($event['description']); ?></small></p>
                                 <?php if (isset($_SESSION['user_id'])): ?>

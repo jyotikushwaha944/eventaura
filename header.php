@@ -25,9 +25,8 @@
         }
 
         #autocomplete-dropdown {
-            width: 100%; /* Ensure the dropdown takes the full width of the parent container */
+            width: 100%; 
         }
-
         .dropdown-menu {
             display: none;
             position: absolute;
@@ -35,40 +34,42 @@
             right: 0;
             margin-top: 0.5rem;
             min-width: 160px;
-            max-width: 300px; /* Set a max-width */
+            max-width: 300px; 
             z-index: 1000;
-            overflow-wrap: break-word; /* Ensure text wraps within the dropdown */
-            word-wrap: break-word; /* Compatibility for older browsers */
-            text-align: left; /* Align text to the left */
+            overflow-wrap: break-word; 
+            word-wrap: break-word; 
+            text-align: left; 
         }
-
         .dropdown-menu.show {
             display: block;
         }
-
         .dropdown-item {
-            font-size: 0.55rem; /* Smaller font size for the dropdown items */
+            font-size: 0.55rem; 
             cursor: pointer;
-            white-space: normal; /* Allow text to wrap */
-            overflow: hidden; /* Hide overflowing text */
-            text-overflow: ellipsis; /* Add ellipsis for long text */
-            padding: 0.5rem 0.5rem !important;  /* Add padding for better spacing */
-            line-height: 1.25; /* Adjust line height for better readability */
+            white-space: normal; 
+            overflow: hidden; 
+            text-overflow: ellipsis; 
+            padding: 0.5rem 0.5rem !important;  
+            line-height: 1.25; 
         }
 
         .user-profile {
             position: relative;
         }
-
+        
+        .logo img {
+           max-height: 100px; 
+           height: auto; 
+        }
     </style>
 </head>
 <body>
-<header class="bg-primary"> <!-- Changed to bg-primary for blue background -->
+<header class="bg-primary"> 
     <div class="container-fluid">
         <div class="d-flex justify-content-between align-items-center py-3">
             <div class="logo">
                 <a href="/eventaura/index.php">
-                    <img src="/eventaura/img/logo.jpg" alt="logo" class="img-fluid" style="max-height: 50px;"> <!-- Adjust max-height as needed -->
+                    <img src="/eventaura/img/lojoo.png" alt="logo" class="img-fluid" style="max-height: 100px;"> 
                 </a>
             </div>
             <nav class="main-nav d-flex align-items-center">
@@ -78,7 +79,7 @@
                         <div class="input-group">
                             <input class="form-control form-control-sm" type="text" name="search_query" placeholder="Search events">
                             <div class="input-group-append">
-                                <button class="btn btn-outline-light btn-sm" type="submit"> <!-- Changed to btn-outline-light for white text -->
+                                <button class="btn btn-outline-light btn-sm" type="submit"> 
                                     <i class="fas fa-search"></i>
                                 </button>
                             </div>
@@ -89,7 +90,7 @@
                         <div class="input-group position-relative">
                             <input id="location-input" class="form-control form-control-sm" type="text" name="search_location_query" placeholder="Choose location" autocomplete="off">
                             <div class="input-group-append">
-                                <button class="btn btn-outline-light btn-sm" type="submit"> <!-- Changed to btn-outline-light for white text -->
+                                <button class="btn btn-outline-light btn-sm" type="submit"> 
                                     <i class="fas fa-search-location"></i>
                                 </button>
                             </div>
@@ -100,11 +101,11 @@
                     </form>
                     <ul class="nav mb-0">
                         <li class="nav-item">
-                            <a class="nav-link text-white" href="/eventaura/createEvent.php">Create Event</a> <!-- Changed to text-white for white text -->
+                            <a class="nav-link text-white" href="/eventaura/createEvent.php">Create Event</a> 
                         </li>
                         <?php if (isset($_SESSION['usertype_id']) && $_SESSION['usertype_id'] === 3): ?>
                             <li class="nav-item dropdown">
-                                <a class="nav-link text-white dropdown-toggle" href="#" id="manageMenuLink" role="button"> <!-- Changed to text-white for white text -->
+                                <a class="nav-link text-white dropdown-toggle" href="#" id="manageMenuLink" role="button"> 
                                     Manage
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="manageMenuLink">
@@ -115,7 +116,7 @@
                             </li>
                         <?php else: ?>
                             <li class="nav-item">
-                                <a class="nav-link text-white" href="/eventaura/aboutus.php">About Us</a> <!-- Changed to text-white for white text -->
+                                <a class="nav-link text-white" href="/eventaura/aboutus.php">About Us</a> 
                             </li>
                         <?php endif; ?>
                     </ul>
@@ -124,7 +125,7 @@
             <div class="user-profile ml-4 d-flex align-items-center">
                 <?php if (isset($_SESSION['loggedIn']) && $_SESSION['loggedIn']): ?>
                     <div class="dropdown">
-                        <a class="btn btn-outline-light btn-sm dropdown-toggle" href="#" role="button" id="dropdownMenuLink" aria-haspopup="true" aria-expanded="false"> <!-- Changed to btn-outline-light for white text -->
+                        <a class="btn btn-outline-light btn-sm dropdown-toggle" href="#" role="button" id="dropdownMenuLink" aria-haspopup="true" aria-expanded="false"> 
                             Welcome, <?php echo htmlspecialchars($_SESSION['username']); ?>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
@@ -133,8 +134,8 @@
                         </div>
                     </div>
                 <?php else: ?>
-                    <a class="btn btn-outline-light btn-sm mr-2" href="/eventaura/login.php">Log In</a> <!-- Changed to btn-outline-light for white text -->
-                    <a class="btn btn-outline-light btn-sm" href="/eventaura/signup.php">Sign Up</a> <!-- Changed to btn-outline-light for white text -->
+                    <a class="btn btn-outline-light btn-sm mr-2" href="/eventaura/login.php">Log In</a> 
+                    <a class="btn btn-outline-light btn-sm" href="/eventaura/signup.php">Sign Up</a> 
                 <?php endif; ?>
             </div>
         </div>
@@ -150,7 +151,6 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        // Profile dropdown logic
         const profileDropdown = document.querySelector('.user-profile .dropdown-menu');
         const profileButton = document.querySelector('.user-profile .dropdown-toggle');
 

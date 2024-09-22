@@ -1,6 +1,6 @@
 <?php
 session_start();
-require 'header.php'; // Include header
+require 'header.php'; 
 $events = isset($_SESSION['search_events']['events']) ? $_SESSION['search_events']['events'] : [];
 ?>
 

@@ -1,14 +1,10 @@
 <?php
 session_start();
 require 'includes/database.php';
-
-// Get the MySQLi connection
 $conn = getDB();
 
 $latitude = isset($_POST['latitude']) ? $_POST['latitude'] : '';
 $longitude = isset($_POST['longitude']) ? $_POST['longitude'] : '';
-
-// Check if latitude and longitude are provided
 if (!empty($latitude) && !empty($longitude)) {
     // Radius in kilometers
     $radius = 20;

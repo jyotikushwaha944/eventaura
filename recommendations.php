@@ -21,7 +21,6 @@ function fetchBookedEvents($conn, $user_id) {
 
 function getBookedCategoryIds($conn, $bookedEvents)
 {
-    // Extract category IDs from booked events
     $bookedCategories = [];
     foreach ($bookedEvents as $event) {
         $bookedCategories[] = $event['category_id'];

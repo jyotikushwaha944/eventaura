@@ -1,7 +1,7 @@
 <?php
 session_start();
 require 'includes/database.php';
-require 'header.php'; // Include header
+require 'header.php'; 
 
 if (!isset($_GET['event_id'])) {
     die('Event ID not provided.');
@@ -9,11 +9,11 @@ if (!isset($_GET['event_id'])) {
 
 $event_id = $_GET['event_id'];
 
-// Get the MySQLi connection
+
 $conn = getDB();
 
 try {
-    // Prepare and execute the query to get event details
+    
     $stmt = $conn->prepare("SELECT * FROM event WHERE id = ?");
     $stmt->bind_param('i', $event_id);
     $stmt->execute();
@@ -36,7 +36,7 @@ try {
     $available_tickets = max(0, $event['participant_count'] - $total_booked);
 
 } catch (Exception $e) {
-    // Handle any errors
+   
     die($e->getMessage());
 }
 ?>

@@ -85,7 +85,7 @@ $conn->close();
             </div>
         </div>
     </div>
-        <h1>Manage Events</h1>
+       
         <a href="/eventaura/createEvent.php" class="btn btn-primary mb-3">Add New Event</a>
         <table class="table table-bordered table-striped">
             <thead>

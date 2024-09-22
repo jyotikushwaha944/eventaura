@@ -1,18 +1,13 @@
 <?php
 session_start();
 require 'includes/database.php';
-require 'header.php'; // Include header
-
-// Get the MySQLi connection
+require 'header.php'; 
 $conn = getDB();
-
 try {
     if (!isset($_SESSION['userid'])) {
         throw new Exception("User not logged in.");
     }
     $user_id = $_SESSION['userid'];
-
-    // Fetch booked events with the number of tickets
     $query = "
         SELECT e.*, SUM(b.num_tickets) as ticket_count 
         FROM event e
@@ -21,34 +16,23 @@ try {
         GROUP BY e.id
         ORDER BY e.created_datetime DESC
     ";
-
-    // Prepare the query
     if (!$stmt = $conn->prepare($query)) {
         throw new Exception("Error preparing statement: " . $conn->error);
     }
-
-    // Bind parameters
     if (!$stmt->bind_param('i', $user_id)) {
         throw new Exception("Error binding parameters: " . $stmt->error);
     }
-
-    // Execute the query
     if (!$stmt->execute()) {
         throw new Exception("Error executing query: " . $stmt->error);
     }
-
-    // Get results
     $result = $stmt->get_result();
     if (!$result) {
         throw new Exception("Error fetching results: " . $conn->error);
     }
 
     $booked_events = $result->fetch_all(MYSQLI_ASSOC);
-
-    // Close the statement
     $stmt->close();
 } catch (Exception $e) {
-    // Handle any errors
     die($e->getMessage());
 }
 ?>
@@ -62,13 +46,13 @@ try {
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         .ticket-card {
-            width: 100mm; /* Ticket width */
+            width: 100mm; 
             border: 1px solid #007bff;
             border-radius: 8px;
             padding: 10px;
             margin: 10px auto;
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-            font-size: 0.75rem; /* Smaller font size */
+            font-size: 0.75rem; 
             position: relative;
             display: flex;
             flex-direction: column;
@@ -77,7 +61,7 @@ try {
         }
         .ticket-card img {
             width: 100%;
-            height: 25mm; /* Image height */
+            height: 25mm; 
             object-fit: cover;
             border-radius: 8px;
         }
@@ -113,13 +97,12 @@ try {
                 box-shadow: none;
                 page-break-inside: avoid;
                 margin: 0;
-                width: 100mm; /* Ensure the ticket retains size on print */
-                height: auto; /* Adjust height based on content */
+                width: 100mm; 
+                height: auto; 
             }
             .print-button-container {
                 display: none;
             }
-            /* Print only ticket section */
             .print-content {
                 display: block;
             }
@@ -168,7 +151,6 @@ try {
                                 <p>Barcode: <?php echo htmlspecialchars($event['id']); ?></p>
                             </div>
                         </div>
-                        <!-- Print button for each ticket -->
                         <div class="print-button-container">
                             <button class="btn btn-primary" onclick="printTicket(<?php echo htmlspecialchars($event['id']); ?>)">Print Ticket</button>
                         </div>
@@ -181,13 +163,8 @@ try {
 
     <script>
         function printTicket(ticketId) {
-            // Get the specific ticket content
             var ticketContent = Array.from(document.querySelectorAll('.ticket-card')).find(card => card.querySelector('.barcode p').textContent.includes(ticketId)).innerHTML;
-
-            // Open a new window
-            var printWindow = window.open('', '_blank');
-
-            // Write ticket content to new window
+            var printWindow = window.open('', '_blank'); 
             printWindow.document.open();
             printWindow.document.write(`
                 <html>
